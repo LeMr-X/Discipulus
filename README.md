@@ -1,1 +1,1 @@
-# Discipuli
+# Discipulus
