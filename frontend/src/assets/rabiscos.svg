@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 320" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Rabiscos de caderno: duas crianças estudando. Mesmo desenho em Discipulus-demonstracao.html -->
+  <defs>
+    <filter id="rabisco" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="3.2"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#rabisco)" stroke="#f1ede3" stroke-opacity="0.62" stroke-width="2.4">
+    <!-- carteira -->
+    <path d="M58 228 L332 228 M60 233 L330 233" />
+    <path d="M76 233 L70 292 M314 233 L320 292" />
+
+    <!-- criança lendo -->
+    <circle cx="120" cy="150" r="20" />
+    <path d="M103 139 L107 128 L112 137 L117 126 L122 136 L127 126 L132 136 L137 129" />
+    <circle cx="113" cy="153" r="1.4" fill="#f1ede3" />
+    <circle cx="127" cy="153" r="1.4" fill="#f1ede3" />
+    <path d="M114 161 Q120 165 126 161" />
+    <path d="M120 170 L120 222 M120 182 L100 212 M120 182 L142 212" />
+    <path d="M92 222 Q106 210 120 220 Q134 210 148 222 L148 226 Q134 216 120 226 Q106 216 92 226 Z" />
+    <path d="M120 220 L120 226 M99 219 L112 216 M128 216 L141 219" />
+
+    <!-- criança levantando a mão -->
+    <circle cx="245" cy="148" r="20" />
+    <path d="M261 138 Q282 134 277 158 Q274 166 268 162" />
+    <circle cx="238" cy="146" r="1.4" fill="#f1ede3" />
+    <circle cx="252" cy="146" r="1.4" fill="#f1ede3" />
+    <circle cx="245" cy="158" r="3.2" />
+    <path d="M245 168 L245 222 M245 180 L272 128 M245 182 L226 214" />
+    <circle cx="275" cy="121" r="5" />
+    <path d="M286 110 Q291 120 286 130 M294 105 Q300 120 294 135" />
+    <path d="M200 221 L236 211 L238 217 L202 227 Z M236 211 L247 212 L238 217" />
+
+    <!-- 2 + 2 = 4 -->
+    <text x="300" y="74" fill="#f1ede3" fill-opacity="0.62" stroke="none" font-family="'Segoe Print','Bradley Hand','Comic Sans MS',cursive" font-size="22">2 + 2 = 4</text>
+    <path d="M298 86 q8 -6 16 0 t16 0 t16 0 t16 0 t16 0" />
+
+    <!-- avião de papel e o rastro -->
+    <path d="M392 150 L456 120 L422 160 Z M456 120 L416 146 L422 160" />
+    <path d="M388 152 C352 160 340 128 362 120 C384 112 382 148 346 158 C322 165 304 160 292 150" stroke-dasharray="5 7" />
+
+    <!-- espiral -->
+    <path d="M380 262 a3 3 0 1 1 6 0 a7 7 0 1 1 -14 0 a11 11 0 1 1 22 0 a15 15 0 1 1 -30 0" />
+
+    <!-- coração -->
+    <path d="M320 186 c-4 -8 -16 -4 -10 6 l10 10 l10 -10 c6 -10 -6 -14 -10 -6 z" />
+  </g>
+
+  <!-- detalhes em dourado -->
+  <g filter="url(#rabisco)" stroke="#d9a54a" stroke-opacity="0.85" stroke-width="2.4">
+    <!-- lâmpada (ideia) -->
+    <path d="M157 84 A15 15 0 1 1 173 84 L171 92 L159 92 Z" />
+    <path d="M160 97 L170 97 M161 102 L169 102" />
+    <path d="M165 45 L165 36 M146 54 L139 48 M184 54 L191 48 M141 70 L132 70 M189 70 L198 70" />
+    <!-- seta da lâmpada até quem está lendo -->
+    <path d="M151 100 Q130 110 133 124" stroke-dasharray="4 6" />
+    <path d="M127 118 L133 126 L140 119" />
+    <!-- estrela -->
+    <path d="M444 210 L450 225 L466 226 L453 236 L458 252 L444 243 L430 252 L435 236 L422 226 L438 225 Z" />
+  </g>
+</svg>

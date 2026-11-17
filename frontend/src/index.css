@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Tokens de cor (claro / escuro)
+   ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+  /* Papel claro e tinta verde-escura: visual de caderno/secretaria, sem brilho */
+  --bg: #f5f3ee;
+  --surface: #ffffff;
+  --surface-2: #efece5;
+  --border: rgb(28 34 30 / 0.09);
+  --border-strong: rgb(28 34 30 / 0.16);
+  --fg: #1b211d;
+  --muted: #59625b;
+  --subtle: #8b938c;
+
+  --brand: #1f5a46;
+  --brand-hover: #174837;
+  --brand-fg: #ffffff;
+  --brand-soft: rgb(31 90 70 / 0.1);
+  --ring: rgb(31 90 70 / 0.25);
+  --accent: #b5832a;
+
+  --success: #237a4b;
+  --success-soft: rgb(35 122 75 / 0.11);
+  --warning: #a8691b;
+  --warning-soft: rgb(168 105 27 / 0.13);
+  --danger: #b83a2e;
+  --danger-soft: rgb(184 58 46 / 0.09);
+
+  --shadow-sm: 0 1px 1px rgb(28 34 30 / 0.04);
+  --shadow-md: 0 1px 2px rgb(28 34 30 / 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #121513;
+    --surface: #191d1a;
+    --surface-2: #20251f;
+    --border: rgb(255 255 255 / 0.07);
+    --border-strong: rgb(255 255 255 / 0.13);
+    --fg: #ebeee9;
+    --muted: #a3aba4;
+    --subtle: #727a73;
+
+    --brand: #6fbf9b;
+    --brand-hover: #86cdab;
+    --brand-fg: #0f1411;
+    --brand-soft: rgb(111 191 155 / 0.13);
+    --ring: rgb(111 191 155 / 0.35);
+    --accent: #d9a54a;
+
+    --success: #5fc48a;
+    --success-soft: rgb(95 196 138 / 0.13);
+    --warning: #e0a94a;
+    --warning-soft: rgb(224 169 74 / 0.13);
+    --danger: #ef7d70;
+    --danger-soft: rgb(239 125 112 / 0.12);
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3);
+  }
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  /* Serifa do sistema (sem download): títulos com cara de documento acadêmico */
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-soft: var(--brand-soft);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
+  --shadow-card: var(--shadow-md);
+  --shadow-xs: var(--shadow-sm);
+
+  /* Curvas fortes (emil-design-eng) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* Títulos de página em serifa */
+h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--brand-soft);
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
+/* Números alinhados em tabelas e notas */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Entrada suave de conteúdo (usada uma vez por página, não em ações repetidas) */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.rise-in {
+  animation: rise-in 400ms var(--ease-out) both;
+}
+
+/* Erro de login: tremida curta, só quando a tentativa falha */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  45% { transform: translateX(4px); }
+  70% { transform: translateX(-2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise-in {
+    animation: fade-in 200ms ease both;
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+  }
+}
