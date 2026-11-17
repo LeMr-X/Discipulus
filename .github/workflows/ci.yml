@@ -1,0 +1,126 @@
+# Integração contínua: roda a cada push e pull request na main.
+#  - backend: testes unitários + de API + integração com MySQL real, com cobertura
+#  - frontend: lint (análise estática) e build
+#  - SonarCloud: análise estática + quality gate, usando a cobertura do backend
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Backend (testes + cobertura)
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: sistema_alunos
+      JWT_SECRET: segredo-somente-para-o-ci
+      DB_TESTE: '1'
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Verificar tipos (TypeScript)
+        run: npx tsc --noEmit
+
+      - name: Criar banco com os dados de exemplo
+        run: npm run banco
+
+      - name: Testes com cobertura (inclui integração com MySQL)
+        run: npm run coverage
+
+      - name: Guardar relatório de cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-backend
+          path: backend/coverage/
+
+  frontend:
+    name: Frontend (lint + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Lint (ESLint)
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  sonarcloud:
+    name: SonarCloud (análise estática + quality gate)
+    runs-on: ubuntu-latest
+    needs: backend
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    steps:
+      # Enquanto o segredo SONAR_TOKEN não for cadastrado, a análise é pulada (sem quebrar o CI)
+      - name: Aviso
+        if: ${{ env.SONAR_TOKEN == '' }}
+        run: echo "::warning::SONAR_TOKEN não configurado. Cadastre o segredo em Settings > Secrets and variables > Actions."
+
+      - uses: actions/checkout@v4
+        if: ${{ env.SONAR_TOKEN != '' }}
+        with:
+          fetch-depth: 0 # o Sonar precisa do histórico para saber o que é código novo
+
+      - name: Baixar relatório de cobertura
+        if: ${{ env.SONAR_TOKEN != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: cobertura-backend
+          path: backend/coverage/
+
+      - name: Análise SonarCloud
+        if: ${{ env.SONAR_TOKEN != '' }}
+        uses: SonarSource/sonarqube-scan-action@v5
+
+      - name: Quality gate
+        if: ${{ env.SONAR_TOKEN != '' }}
+        uses: SonarSource/sonarqube-quality-gate-action@v1
+        timeout-minutes: 5
