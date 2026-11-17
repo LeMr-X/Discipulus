@@ -1,0 +1,15 @@
+{
+  "name": "discipulus",
+  "private": true,
+  "description": "A3 - Sistema de Cadastro de Alunos com login (Banco de Dados + Garantia e Qualidade de Software)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "instalar": "node scripts/instalar.mjs",
+    "banco": "npm --prefix backend run banco",
+    "dev": "node scripts/dev.mjs",
+    "test": "npm --prefix backend test",
+    "coverage": "npm --prefix backend run coverage"
+  }
+}
